@@ -1,0 +1,35 @@
+0 V V V V V V V V 0
+H 0 0 0 0 0 0 0 0 0
+H 0 V V V V V V V 0
+H 0 V V V V V V V 0
+H 0 0 0 0 0 0 0 0 0
+H 0 V V V V V V V 0
+H 0 V V V V V V V 0
+H 0 0 0 0 0 0 0 0 0
+H 0 V V V V V V V 0
+H 0 V V V V V V V 0
+H 0 0 0 0 0 0 0 0 0
+0 0 V V V V V V V 0
+
+So the internal representation of a parking lot can be stored in a matrix, 
+where 0 represents the isles, V indicates a vertical parking bay and H represents a Horizontal
+parking bay.
+
+The dynamic status of the bays can be represented in another matrix where 0 : empty, 1 : occupied.
+The use of 0 as isles in the first matrix can be changed to something else to avoid ambiguity.
+
+For generating a new parking lot from the PC interface,
+The interface can use a jPanel with a 2D array of buttons to represent the parking lot as cells,
+initially the cells will be all blank but can individually be assigned as a V or H parking bay,
+The remaining blank cells will be the isles.
+The program will take into account the width and height of a V or H bay.
+The sensors will then also need to be assigned to each cell, this will require knowing the address
+of each sensor though, for simplicity we can create a reference to each sensor with simple integers 
+1, 2, 3...
+
+This layout also provides an interactive interface, eg. once the system is set up and the final system 
+is running, the onscreen interface will display the parking lot, as the array of cells, and each bay 
+can be clicked on to view stats of the bay, eg. how long its been occupied or its % of use relative to the 
+other bays.
+
+
