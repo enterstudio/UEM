@@ -48,7 +48,7 @@ public class Db_data {
             LinkedHashMap data = new LinkedHashMap();
             conn.connect();
             Connection con = conn.getConnection();
-            PreparedStatement pst = con.prepareStatement("SELECT * FROM parking_bay");
+            PreparedStatement pst = con.prepareStatement("SELECT * FROM parking_lot");
             ResultSet rs = pst.executeQuery();
             ParkingLot tmp = new ParkingLot();
             while (rs.next()) {
@@ -70,7 +70,7 @@ public class Db_data {
             LinkedHashMap data = new LinkedHashMap();
             conn.connect();
             Connection con = conn.getConnection();
-            PreparedStatement pst = con.prepareStatement("SELECT * FROM parking_lot");
+            PreparedStatement pst = con.prepareStatement("SELECT * FROM personnel");
             ResultSet rs = pst.executeQuery();
             Personnel tmp = new Personnel();
             while (rs.next()) {
