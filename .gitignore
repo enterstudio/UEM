@@ -1,2 +1,8 @@
 /Source/Server/nbproject/private/
 /Source/Server/build/
+Source/Server/build.xml
+Source/Server/manifest.mf
+Source/Server/nbproject/build-impl.xml
+Source/Server/nbproject/genfiles.properties
+Source/Server/nbproject/project.properties
+Source/Server/nbproject/project.xml
