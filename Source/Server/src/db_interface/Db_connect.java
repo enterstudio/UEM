@@ -8,11 +8,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Db_connect {
-    Connection con = null;
+    private Connection con = null;
     
-    String url = "jdbc:mysql://localhost:3306/uem_db";
-    String user = "root";
-    String password = "";
+    private final String url = "jdbc:mysql://localhost:3306/uem_db";
+    private final String user = "root";
+    private final String password = "";
     
     public void connect() {
         try {
