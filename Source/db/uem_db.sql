@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 02, 2014 at 05:32 PM
+-- Generation Time: Jul 03, 2014 at 03:45 PM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS `parking_bay` (
   `identifier` varchar(8) NOT NULL COMMENT 'Unique id to define the sensor location for the parking bay',
   `parking_lot_id` int(11) NOT NULL COMMENT 'Foreign key to relate parking bay to a parking lot',
   `state` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'State of parking bay: True for bay is occupied, False for bay is vacant',
+  `time_of_change` datetime NOT NULL COMMENT 'Records the date and time when a state change has occurred',
   PRIMARY KEY (`id`),
   UNIQUE KEY `identifier` (`identifier`),
   KEY `parking_lot_id` (`parking_lot_id`)
@@ -40,9 +41,9 @@ CREATE TABLE IF NOT EXISTS `parking_bay` (
 -- Dumping data for table `parking_bay`
 --
 
-INSERT INTO `parking_bay` (`id`, `identifier`, `parking_lot_id`, `state`) VALUES
-(1, '00000001', 1, 0),
-(2, '00000010', 1, 1);
+INSERT INTO `parking_bay` (`id`, `identifier`, `parking_lot_id`, `state`, `time_of_change`) VALUES
+(1, '00000001', 1, 0, '2014-07-03 15:33:37'),
+(2, '00000010', 1, 0, '2014-07-03 15:42:01');
 
 -- --------------------------------------------------------
 
