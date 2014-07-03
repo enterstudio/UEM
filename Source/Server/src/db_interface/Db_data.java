@@ -92,4 +92,22 @@ public class Db_data {
         }
         return null;
     }
+    public void updateParkingBayFromIdentifier(String sensorID, boolean state, String timeStamp) {
+        try {
+            conn.connect();
+            Connection con = conn.getConnection();
+
+            String query = "UPDATE parking_bay SET state = ?, time_of_change = ? WHERE identifier = ?";
+            PreparedStatement pst = con.prepareStatement(query);
+            pst.setBoolean(1, state);
+            pst.setString(2, timeStamp);
+            pst.setString(3, sensorID);
+            
+            pst.executeUpdate();
+            conn.close();            
+        } catch (SQLException ex) {
+            Logger lgr = Logger.getLogger(Db_data.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+    }
 }
