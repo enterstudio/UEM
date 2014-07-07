@@ -92,6 +92,54 @@ public class Db_data {
         }
         return null;
     }
+    
+    public LinkedHashMap getAllOccupiedParkingBays() {
+        try {
+            LinkedHashMap data = new LinkedHashMap();
+            conn.connect();
+            Connection con = conn.getConnection();
+            PreparedStatement pst = con.prepareStatement("SELECT * FROM parking_bay WHERE state = 1");
+            ResultSet rs = pst.executeQuery();
+            ParkingBay tmp = new ParkingBay();
+            while (rs.next()) {
+                tmp.id = rs.getInt("id");
+                tmp.identifier = rs.getString("identifier");
+                tmp.parking_lot_id = rs.getInt("parking_lot_id");
+                tmp.state = rs.getBoolean("state");
+                data.put(tmp.identifier,tmp);
+            }
+            conn.close();
+            return data;
+        } catch (SQLException ex) {
+            Logger lgr = Logger.getLogger(Db_data.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+        return null;
+    }
+    
+    public boolean getSensorState(String identifier)
+    {
+        try {
+            LinkedHashMap data = new LinkedHashMap();
+            conn.connect();
+            Connection con = conn.getConnection();
+            String query = "SELECT state FROM parking_bay WHERE identifier = ?";
+            PreparedStatement pst = con.prepareStatement(query);
+            pst.setString(1, identifier);
+            ResultSet rs = pst.executeQuery(identifier);
+            boolean tmp = false;
+            while (rs.next()) {
+                tmp = rs.getBoolean("state");
+            }
+            conn.close();
+            return tmp;
+        } catch (SQLException ex) {
+            Logger lgr = Logger.getLogger(Db_data.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+        return false;
+    }
+    
     public void updateParkingBayFromIdentifier(String sensorID, boolean state, String timeStamp) {
         try {
             conn.connect();
