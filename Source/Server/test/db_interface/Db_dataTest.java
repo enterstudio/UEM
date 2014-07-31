@@ -42,9 +42,10 @@ public class Db_dataTest {
         Db_data instance = new Db_data();
         LinkedHashMap expResult = null;
         LinkedHashMap result = instance.getAllParkingBays();
-        assertEquals(expResult, result);
+        //assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        if (result.isEmpty())
+            fail("No parking bays were loaded.");
     }
 
     /**
@@ -56,9 +57,10 @@ public class Db_dataTest {
         Db_data instance = new Db_data();
         LinkedHashMap expResult = null;
         LinkedHashMap result = instance.getAllParkingLots();
-        assertEquals(expResult, result);
+        //assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        if (result.isEmpty())
+            fail("No parking lots loaded.");
     }
 
     /**
@@ -70,9 +72,10 @@ public class Db_dataTest {
         Db_data instance = new Db_data();
         LinkedHashMap expResult = null;
         LinkedHashMap result = instance.getAllPersonnel();
-        assertEquals(expResult, result);
+        //assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        if (result.isEmpty())
+            fail("No personnel loaded.");
     }
 
     /**

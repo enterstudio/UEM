@@ -38,6 +38,10 @@ public class Db_connectTest {
         System.out.println("connect");
         Db_connect instance = new Db_connect();
         instance.connect();
+        if (instance.getConnection() == null)
+        {
+            fail("No Connection established.");
+        }
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -50,6 +54,10 @@ public class Db_connectTest {
         System.out.println("close");
         Db_connect instance = new Db_connect();
         instance.close();
+        if (instance.getConnection() != null)
+        {
+            fail("Connection still opened.");
+        }
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
