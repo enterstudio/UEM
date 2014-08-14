@@ -2,6 +2,8 @@
 package ui;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -9,6 +11,8 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import logic.Data_services;
+import db_objects.ParkingBay;
 
 public class UI extends Application {
     
@@ -38,17 +42,31 @@ public class UI extends Application {
     
     private List<Bay> getParkingBaysFromDB() {
         // TEST DATA //
-        Image available = new Image(getClass().getResourceAsStream("resources\\available.gif"));
-        Image occupied = new Image(getClass().getResourceAsStream("resources\\noparking.jpg"));
+        /*Image available = new Image(getClass().getResourceAsStream("resources\\available.gif"));
+        Image occupied = new Image(getClass().getResourceAsStream("resources\\occupied.gif"));
         List<Bay> tmp = new ArrayList<>();
         Bay bay1 = new Bay(1, 1, true, available, "0000 0000");
-        Bay bay2 = new Bay(110, 1, false, occupied, "0000 0001");
-        Bay bay3 = new Bay(210, 1, true, available, "0000 0010");
+        Bay bay2 = new Bay(101, 1, false, occupied, "0000 0001");
+        Bay bay3 = new Bay(201, 1, true, available, "0000 0010");
         tmp.add(bay1);
         tmp.add(bay2);
-        tmp.add(bay3);
-        return tmp;
+        tmp.add(bay3);*/
+        
         // END TEST //
+        Data_services data = new Data_services();
+        List<ParkingBay> bays = data.getAllParkingBaysForUI();
+        List<Bay> list = new ArrayList<>();
+        for (ParkingBay pbay : bays) {
+            Image img;
+            if (pbay.state) {
+                img = new Image(getClass().getResourceAsStream("resources\\available.gif"));
+            } else {
+                img = new Image(getClass().getResourceAsStream("resources\\occupied.gif"));
+            }
+            list.add(new Bay(pbay.x, pbay.y, pbay.state, img, pbay.identifier));
+        }
+        
+        return list;
     }
     
 }

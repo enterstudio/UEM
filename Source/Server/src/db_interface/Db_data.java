@@ -18,6 +18,25 @@ public class Db_data {
     public Db_data() {
         this.conn = new Db_connect();
     }
+    
+    public ResultSet get(String query) {
+        try {
+            LinkedHashMap data = new LinkedHashMap();
+            conn.connect();
+            Connection con = conn.getConnection();
+            PreparedStatement pst = con.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            //conn.close();
+            return rs;
+        } catch (SQLException ex) {
+            Logger lgr = Logger.getLogger(Db_data.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+        return null;
+    }
+    public void closeConn() {
+        conn.close();
+    }
 
     public LinkedHashMap getAllParkingBays() {
         try {
