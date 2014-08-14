@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 03, 2014 at 03:45 PM
+-- Generation Time: Aug 15, 2014 at 12:45 AM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -35,15 +35,42 @@ CREATE TABLE IF NOT EXISTS `parking_bay` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `identifier` (`identifier`),
   KEY `parking_lot_id` (`parking_lot_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Table containing the information related to individual parking bays' AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Table containing the information related to individual parking bays' AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `parking_bay`
 --
 
 INSERT INTO `parking_bay` (`id`, `identifier`, `parking_lot_id`, `state`, `time_of_change`) VALUES
-(1, '00000001', 1, 0, '2014-07-03 15:33:37'),
-(2, '00000010', 1, 0, '2014-07-03 15:42:01');
+(1, '0000', 1, 0, '2014-07-31 22:16:54'),
+(2, '0001', 1, 1, '2014-07-31 22:19:26'),
+(3, '0010', 1, 0, '2014-08-16 00:00:00'),
+(4, '0011', 1, 1, '2014-08-13 09:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `parking_bay_ui`
+--
+
+CREATE TABLE IF NOT EXISTS `parking_bay_ui` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `x` int(11) NOT NULL DEFAULT '0' COMMENT 'x coordinate for positioning',
+  `y` int(11) NOT NULL DEFAULT '0' COMMENT 'y coordinate for positioning',
+  `parking_bay_id` int(11) NOT NULL COMMENT 'Reference to parking_bay element',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `parking_bay_id` (`parking_bay_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `parking_bay_ui`
+--
+
+INSERT INTO `parking_bay_ui` (`id`, `x`, `y`, `parking_bay_id`) VALUES
+(1, 1, 1, 1),
+(2, 101, 1, 2),
+(3, 201, 1, 3),
+(4, 301, 1, 4);
 
 -- --------------------------------------------------------
 
@@ -81,7 +108,14 @@ CREATE TABLE IF NOT EXISTS `personnel` (
   `level` enum('0','2','5') DEFAULT '0' COMMENT 'Security clearance level of person: ''0'' user level rights; ''2'' security personnel rights; ''5'' administrative rights',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Table containing data to grant access to system functionality for personnel' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Table containing data to grant access to system functionality for personnel' AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `personnel`
+--
+
+INSERT INTO `personnel` (`id`, `username`, `password`, `name`, `surname`, `tel`, `email`, `level`) VALUES
+(1, 'admin', 'admin', 'admin', '', '', '', '5');
 
 -- --------------------------------------------------------
 
@@ -109,11 +143,17 @@ ALTER TABLE `parking_bay`
   ADD CONSTRAINT `parking_bay_ibfk_1` FOREIGN KEY (`parking_lot_id`) REFERENCES `parking_lot` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `parking_bay_ui`
+--
+ALTER TABLE `parking_bay_ui`
+  ADD CONSTRAINT `parking_bay_ui_ibfk_1` FOREIGN KEY (`parking_bay_id`) REFERENCES `parking_bay` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `personnel_lot_manager`
 --
 ALTER TABLE `personnel_lot_manager`
-  ADD CONSTRAINT `personnel_lot_manager_ibfk_2` FOREIGN KEY (`parking_lot_id`) REFERENCES `parking_lot` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
-  ADD CONSTRAINT `personnel_lot_manager_ibfk_1` FOREIGN KEY (`personnel_id`) REFERENCES `personnel` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
+  ADD CONSTRAINT `personnel_lot_manager_ibfk_1` FOREIGN KEY (`personnel_id`) REFERENCES `personnel` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
+  ADD CONSTRAINT `personnel_lot_manager_ibfk_2` FOREIGN KEY (`parking_lot_id`) REFERENCES `parking_lot` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

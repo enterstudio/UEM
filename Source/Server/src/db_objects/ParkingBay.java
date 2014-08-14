@@ -6,4 +6,6 @@ public class ParkingBay {
     public int parking_lot_id;
     public boolean state;
     public String datetime;
+    public int x;
+    public int y;
 }
