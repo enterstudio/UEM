@@ -5,6 +5,7 @@ import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent; 
 import gnu.io.SerialPortEventListener; 
+import java.util.Arrays;
 import java.util.Enumeration;
  
  
@@ -15,7 +16,7 @@ public class SerialTest implements SerialPortEventListener {
                         "/dev/ttyACM0", //for Ubuntu
    "/dev/tty.usbserial-A9007UX1", // Mac OS X
    "/dev/ttyUSB0", // Linux
-   "COM3", // Windows
+   "COM4", // Windows
  };
  /**
  * A BufferedReader which will be fed by a InputStreamReader 
@@ -30,6 +31,8 @@ public class SerialTest implements SerialPortEventListener {
  /** Default bits per second for COM port. */
  private static final int DATA_RATE = 9600;
  
+ private char[] oldState;
+ 
  public void initialize() {
   CommPortIdentifier portId = null;
   Enumeration portEnum = CommPortIdentifier.getPortIdentifiers();
@@ -37,7 +40,9 @@ public class SerialTest implements SerialPortEventListener {
   //First, Find an instance of serial port as set in PORT_NAMES.
   while (portEnum.hasMoreElements()) {
    CommPortIdentifier currPortId = (CommPortIdentifier) portEnum.nextElement();
-   for (String portName : PORT_NAMES) {
+   for (String portName : PORT_NAMES) 
+   {
+    System.out.println(currPortId.getName());//   
     if (currPortId.getName().equals(portName)) {
      portId = currPortId;
      break;
@@ -83,6 +88,82 @@ public class SerialTest implements SerialPortEventListener {
   }
  }
  
+ protected boolean testForChange(String iL)
+ {
+    String sensorID, state;
+    int idIndex;
+    int tmpOldState;
+    
+    sensorID = parseSensorID(iL); //the 4 bit ID eg 000
+    state = parseState(iL); // new state 1 or 0
+    idIndex = getSIDIndex(sensorID); //int id of sensor 1..4etc
+    /*old version using locally stored state
+    if(oldState == null)
+    {
+        char tmp[] = {'0','0','0','0'};
+        oldState = Arrays.copyOf(tmp, 3);
+        oldState[idIndex] = '1';
+        //oldState = "0000"; //four sensors init
+        //oldState.
+        updateDatabase(oldState, sensorID, state);
+    }
+    else
+    {
+        //test agin then possibly
+        //update DB
+        //set global flag for UI thread to query updated database
+    }
+    */
+    //new version test where query database
+    
+    tmpOldState = getOldState(sensorID);
+    if (tmpOldState == Integer.parseInt(state))
+    {
+        System.out.println("State not changed, Db not Updated");
+        System.out.println("Sensor ID : " + sensorID + ", was in state : " + tmpOldState + ", now in state : " + state);
+        return false;
+    }
+    else
+    {
+        updateDatabase(sensorID, state);
+        System.out.println("State changed, Db not Updated");
+        System.out.println("Sensor ID : " + sensorID + ", was in state : " + tmpOldState + ", now in state : " + state);
+        return true;
+    }
+ }
+ 
+ protected int getOldState(String sensorID)//get from databse to decide whether or not to update
+ {
+     //TODO
+     return 0;
+ }
+ 
+ protected void updateDatabase(String sID, String sState)
+ {
+     //TODO
+ }
+ 
+ protected String parseSensorID(String iL)
+ {
+     return iL.substring(0, 4);
+ }
+ 
+ protected String parseState(String iL)
+ {
+     return String.valueOf(iL.charAt(5));
+ }
+ 
+ protected int getSIDIndex(String sID)
+ {
+     switch(sID)
+     {
+        case "0000" : return 0;
+        case "0001" : return 1;
+        case "0010" : return 2;
+        case "0011" : return 3;
+        default     : return 4; // error in input...for now     
+     }
+ }
  /**
   * Handle an event on the serial port. Read the data and print it.
   */
@@ -90,6 +171,10 @@ public class SerialTest implements SerialPortEventListener {
   if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
    try {
     String inputLine=input.readLine();
+    //added
+    boolean change = testForChange(inputLine);
+    
+    //end
     System.out.println(inputLine);
    } catch (Exception e) {
     //System.err.println(e.toString());
