@@ -22,8 +22,24 @@ public class UI extends Application {
         primaryStage.show();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) 
+    {
+        serial_comm.SerialTest main = new serial_comm.SerialTest();
+        main.initialize();
+        Thread t=new Thread() 
+        {
+            public void run() 
+            {
+                //the following line will keep this app alive for 1000 seconds,
+                //waiting for events to occur and responding to them (printing incoming messages to console).
+                try {Thread.sleep(1000000);} catch (InterruptedException ie) {}
+            }
+        };
+        t.start();
+        System.out.println("SC Thread Started");
+        
         launch(args);
+
     }
 
     private void init(Stage primaryStage) {
@@ -38,6 +54,8 @@ public class UI extends Application {
         VBox vb = new VBox(10);
         vb.getChildren().addAll(lot);
         root.getChildren().addAll(vb);
+        
+        
     }
     
     private List<Bay> getParkingBaysFromDB() {
