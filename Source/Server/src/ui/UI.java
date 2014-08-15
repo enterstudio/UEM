@@ -13,13 +13,15 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import logic.Data_services;
 import db_objects.ParkingBay;
+import javafx.scene.image.ImageView;
 
 public class UI extends Application {
-    
+    private final Lot lot = new Lot(1000, 1000);
     @Override
     public void start(Stage primaryStage) {
         init(primaryStage);
         primaryStage.show();
+        updateParkingBay();
     }
 
     public static void main(String[] args) {
@@ -30,11 +32,9 @@ public class UI extends Application {
         Group root = new Group();
         primaryStage.setScene(new Scene(root));
         
-        final Lot lot = new Lot(1000, 1000);
-        
         final List<Bay> bays = getParkingBaysFromDB();
         lot.getChildren().addAll(bays);
-        
+
         VBox vb = new VBox(10);
         vb.getChildren().addAll(lot);
         root.getChildren().addAll(vb);
@@ -67,6 +67,14 @@ public class UI extends Application {
         }
         
         return list;
+    }
+    
+    private void updateParkingBay() {
+        // TEST DATA //
+        Image img = new Image(getClass().getResourceAsStream("resources\\available.gif"));
+        Bay test = new Bay(1, 1, false, img, "0000");
+        lot.getChildren().set(0, test);
+        // END TEST //
     }
     
 }
