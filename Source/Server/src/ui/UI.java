@@ -26,7 +26,7 @@ public class UI extends Application {
 
     public static void main(String[] args) 
     {
-        serial_comm.SerialTest main = new serial_comm.SerialTest();
+        serial_comm.Serial main = new serial_comm.Serial();
         main.initialize();
         Thread t=new Thread() 
         {
