@@ -16,6 +16,19 @@ public class Bay extends Parent {
     private Point2D dragAnchor;
     private boolean state;
     private String id;
+    
+    public String getBayId() {
+        return this.id;
+    }
+
+    public void setState(boolean state) {
+        this.state = state;
+    }
+
+    public void setImage(Image image) {
+        this.imageview.setImage(image);
+    }
+    
 
     public Bay(double xin, double yin, boolean state, Image image, String id) {
         this.x = xin;

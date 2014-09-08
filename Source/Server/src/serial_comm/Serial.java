@@ -22,6 +22,7 @@ import java.util.Enumeration;
  */
 public class Serial implements SerialPortEventListener{
     SerialPort serialPort;
+    private String line = new String();
         /** The port we're normally going to use. */
  private static final String PORT_NAMES[] = { 
                         "/dev/ttyACM0", //for Ubuntu
@@ -188,6 +189,13 @@ public class Serial implements SerialPortEventListener{
         default     : return 4; // error in input...for now     
      }
  }
+ 
+ public String getLine() {
+     return line;
+ }
+ private String getSensorIDFromEvent(String input) {
+     return parseSensorID(input);
+ }
  /**
   * Handle an event on the serial port. Read the data and print it.
   */
@@ -197,7 +205,7 @@ public class Serial implements SerialPortEventListener{
     String inputLine=input.readLine();
     //added
     boolean change = testForChange(inputLine);
-    
+    line = getSensorIDFromEvent(inputLine);
     //end
     System.out.println(inputLine);
    } catch (Exception e) {
