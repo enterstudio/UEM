@@ -3,34 +3,36 @@ package ui;
 
 import db_objects.ParkingBay;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import logic.Data_services;
-import serial_comm.Serial2;
+import serial_comm.Serial;
 
 public class UI extends Application {
     ////    Serial Comm Elements    ////
-    private final Serial2 serial = new Serial2();
+    private final Serial serial = new Serial();
     private ChangeListener<String> listener;
     private final BooleanProperty connection = new SimpleBooleanProperty(false);
     ////////////
-    private final Lot lot = new Lot(1000, 1000);
+    private final Lot lot = new Lot(800, 800);
     
     @Override
     public void start(Stage primaryStage) {
@@ -39,7 +41,7 @@ public class UI extends Application {
         listener=(ov, t, t1) -> {
             Platform.runLater(()->{
                 try{
-                    String[] data=t1.split(Serial2.SEPARATOR);
+                    String[] data=t1.split(Serial.SEPARATOR);
                     String id = parseSensorID(data[1]);
                     Boolean state;
                     if (parseState(data[1]).equals("1"))
@@ -58,42 +60,60 @@ public class UI extends Application {
         connection.addListener((ov, b, b1)->lbl.setText(b1?
                 "Connected to: "+serial.getPortName():"Not connected"));
         
-        startSerial();
+        
     }
     
     private void startSerial() {
+        System.out.println("Opening serial port");
         serial.connect();
         connection.set(!serial.getPortName().isEmpty());
     }
 
+    private void stopSerial(){
+        System.out.println("Closing serial port");
+        serial.disconnect();
+    }
+
     public static void main(String[] args) 
     {
-        /*//serial_comm.Serial2 main = new serial_comm.Serial2();
-        //main.initialize();
-        Thread t=new Thread() 
-        {
-            public void run() 
-            {
-                //the following line will keep this app alive for 1000 seconds,
-                //waiting for events to occur and responding to them (printing incoming messages to console).
-                try {Thread.sleep(1000000);} catch (InterruptedException ie) {}
-            }
-        };
-        t.start();
-        System.out.println("SC Thread Started");
-        */
         launch(args);
-
     }
 
     private void init(Stage primaryStage) {
         Group root = new Group();
         primaryStage.setScene(new Scene(root));
         
+        ToolBar toolBar = new ToolBar();
+        //Button startSerial = new Button();
+        //Button stopSerial = new Button();
+        ToggleButton serialButton = new ToggleButton();
+        Image startImage = new Image(getClass().getResourceAsStream("resources\\start.png"));
+        Image stopImage = new Image(getClass().getResourceAsStream("resources\\stop.png"));
+        ImageView toggleImage = new ImageView();
+        serialButton.setGraphic(toggleImage);
+        serialButton.setUserData("start");
+        toggleImage.imageProperty().bind(Bindings
+                .when(serialButton.selectedProperty())
+                    .then(stopImage)
+                    .otherwise(startImage)
+        );
+        serialButton.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                if (serialButton.isSelected())
+                    startSerial();
+                else
+                    stopSerial();
+            }
+        });
+        toolBar.getItems().addAll(serialButton);
+        
         final List<Bay> bays = getParkingBaysFromDB();
         lot.getChildren().addAll(bays);
 
         VBox vb = new VBox(10);
+        vb.getChildren().addAll(toolBar);
         vb.getChildren().addAll(lot);
         root.getChildren().addAll(vb);
         
@@ -135,6 +155,9 @@ public class UI extends Application {
         Bay test = new Bay(1, 1, false, img, "0000");
         lot.getChildren().set(0, test);
         // END TEST //*/
+        logic.Data_services DS = new logic.Data_services();
+        DS.sensorStateChange(id, state);
+        
         Bay updateBay;
         ObservableList<Node> bays = lot.getChildren();
         Image image;

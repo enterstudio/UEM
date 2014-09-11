@@ -37,8 +37,8 @@ public class Bay extends Parent {
         this.id = id;
         
         imageview.setImage(image);
-        imageview.setFitHeight(200);
-        imageview.setFitWidth(100);
+        imageview.setFitHeight(100);
+        imageview.setFitWidth(50);
         imageview.preserveRatioProperty();
         setFocusTraversable(true);
         getChildren().addAll(imageview);
