@@ -2,7 +2,10 @@
 package ui;
 
 import db_objects.ParkingBay;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -19,6 +22,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToolBar;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -84,8 +88,6 @@ public class UI extends Application {
         primaryStage.setScene(new Scene(root));
         
         ToolBar toolBar = new ToolBar();
-        //Button startSerial = new Button();
-        //Button stopSerial = new Button();
         ToggleButton serialButton = new ToggleButton();
         Image startImage = new Image(getClass().getResourceAsStream("resources\\start.png"));
         Image stopImage = new Image(getClass().getResourceAsStream("resources\\stop.png"));
@@ -136,6 +138,7 @@ public class UI extends Application {
         Data_services data = new Data_services();
         List<ParkingBay> bays = data.getAllParkingBaysForUI();
         List<Bay> list = new ArrayList<>();
+        Tooltip tooltip;
         for (ParkingBay pbay : bays) {
             Image img;
             if (pbay.state) {
@@ -143,18 +146,27 @@ public class UI extends Application {
             } else {
                 img = new Image(getClass().getResourceAsStream("resources\\occupied.gif"));
             }
-            list.add(new Bay(pbay.x, pbay.y, pbay.state, img, pbay.identifier));
+            tooltip = createToolTip(pbay.identifier, pbay.state, pbay.datetime);
+            Bay tmp = new Bay(pbay.x, pbay.y, pbay.state, img, pbay.identifier);
+            Tooltip.install(tmp, tooltip);
+            list.add(tmp);
         }
         
         return list;
     }
     
+    private Tooltip createToolTip(String id, Boolean state, String time) {
+        return new Tooltip("Sensor ID: " + id + "\n"
+                                    + "Available: " + state + "\n"
+                                    + "Time of change: " + time);
+    }
+    
     private void updateParkingBay(String id, Boolean state) {
-        /*// TEST DATA //
-        Image img = new Image(getClass().getResourceAsStream("resources\\available.gif"));
-        Bay test = new Bay(1, 1, false, img, "0000");
-        lot.getChildren().set(0, test);
-        // END TEST //*/
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        String timeStamp = dateFormat.format(date);
+        
         logic.Data_services DS = new logic.Data_services();
         DS.sensorStateChange(id, state);
         
@@ -172,6 +184,7 @@ public class UI extends Application {
             if (id.equals(tmp.getBayId())) {
                 tmp.setState(state);
                 tmp.setImage(image);
+                Tooltip.install(tmp, createToolTip(id, state, timeStamp));
                 lot.getChildren().set(i, tmp);
                 break;
             }

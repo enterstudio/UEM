@@ -39,6 +39,7 @@ public class Data_services {
                 tmp.state = rs.getBoolean("state");
                 tmp.x = rs.getInt("x");
                 tmp.y = rs.getInt("y");
+                tmp.datetime = rs.getString("time_of_change");
                 results.add(tmp);
             }
             data.closeConn();
