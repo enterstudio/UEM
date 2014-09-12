@@ -15,6 +15,12 @@ import java.util.logging.Logger;
 
 public class Data_services {
     private final Db_data data = new Db_data();
+    
+    public void addNewParkingBay(String sensorID, String lotID, String timeStamp) {
+        
+        data.addNewParkingBayToDB(sensorID,lotID,timeStamp);
+    }
+    
     public void sensorStateChange(String sensorID, boolean state)
     {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -48,5 +54,9 @@ public class Data_services {
             Logger.getLogger(Data_services.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+
+    public void savePositionForUI(String id, double x, double y) {
+        data.updateUIPosition(id,(int) x,(int) y);
     }
 }

@@ -129,4 +129,54 @@ public class Db_data {
             lgr.log(Level.SEVERE, ex.getMessage(), ex);
         }
     }
+
+    public void addNewParkingBayToDB(String sensorID, String lotID, String timeStamp) {
+        try {
+            conn.connect();
+            Connection con = conn.getConnection();
+
+            String query = "INSERT INTO parking_bay (state,time_of_change,identifier,parking_lot_id) VALUES (?,?,?,?)";
+            PreparedStatement pst = con.prepareStatement(query);
+            pst.setBoolean(1, true);
+            pst.setString(2, timeStamp);
+            pst.setString(3, sensorID);
+            pst.setInt(4, Integer.parseInt(lotID));
+            
+            pst.execute();
+            conn.close();            
+        } catch (SQLException ex) {
+            Logger lgr = Logger.getLogger(Db_data.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+    }
+
+    public void updateUIPosition(String id, int x, int y) {
+        try {
+            LinkedHashMap data = new LinkedHashMap();
+            conn.connect();
+            Connection con = conn.getConnection();
+            PreparedStatement pst = con.prepareStatement("SELECT id FROM parking_bay WHERE identifier = "+id);
+            ResultSet rs = pst.executeQuery();
+            int tmp_id = 0;
+            while (rs.next()) {
+                tmp_id = rs.getInt("id");
+            }
+            String query = "INSERT INTO parking_bay_ui (x,y,parking_bay_id) VALUES (?,?,?) "
+                    + "ON DUPLICATE KEY UPDATE "
+                    + "x = ?, "
+                    + "y = ?";
+            pst = con.prepareStatement(query);
+            pst.setInt(1, x);
+            pst.setInt(2, y);
+            pst.setInt(3, tmp_id);
+            pst.setInt(4, x);
+            pst.setInt(5, y);
+            
+            pst.execute();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger lgr = Logger.getLogger(Db_data.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+    }
 }

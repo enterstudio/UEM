@@ -19,6 +19,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToolBar;
@@ -26,7 +27,10 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javax.swing.JOptionPane;
 import logic.Data_services;
 import serial_comm.Serial;
 
@@ -92,15 +96,16 @@ public class UI extends Application {
         Image startImage = new Image(getClass().getResourceAsStream("resources\\start.png"));
         Image stopImage = new Image(getClass().getResourceAsStream("resources\\stop.png"));
         ImageView toggleImage = new ImageView();
+        Tooltip tooltip = new Tooltip("Start/Stop Serial Communication");
         serialButton.setGraphic(toggleImage);
         serialButton.setUserData("start");
+        Tooltip.install(serialButton, tooltip);
         toggleImage.imageProperty().bind(Bindings
                 .when(serialButton.selectedProperty())
                     .then(stopImage)
                     .otherwise(startImage)
         );
         serialButton.setOnAction(new EventHandler<ActionEvent>() {
-
             @Override
             public void handle(ActionEvent event) {
                 if (serialButton.isSelected())
@@ -109,12 +114,48 @@ public class UI extends Application {
                     stopSerial();
             }
         });
-        toolBar.getItems().addAll(serialButton);
+        Image createImage = new Image(getClass().getResourceAsStream("resources\\newbay.gif"));
+        ImageView createView = new ImageView(createImage);
+        createView.setFitHeight(48);
+        createView.setFitWidth(24);
+        createView.preserveRatioProperty();
+        Button createBay = new Button("Create Bay");
+        Tooltip.install(createBay, new Tooltip("Create a new Parking Bay"));
+        createBay.setGraphic(createView);
+        createBay.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                /*final Stage dialog = new Stage();
+                dialog.initModality(Modality.APPLICATION_MODAL);
+                dialog.initOwner(primaryStage);
+                VBox dialogVbox = new VBox(20);
+                dialogVbox.getChildren().add(new Text("This is a Dialog"));
+                Scene dialogScene = new Scene(dialogVbox, 300, 200);
+                dialog.setScene(dialogScene);
+                dialog.show();*/
+                String id = JOptionPane.showInputDialog("Enter sensor ID of parking bay");
+                Bay tmp = new Bay(100, 100, true, new Image(getClass().getResourceAsStream("resources\\available.gif")), id);
+                
+                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                Date date = new Date();
+                String timeStamp = dateFormat.format(date);
+                
+                Data_services data = new Data_services();
+                data.addNewParkingBay(id, "1", timeStamp);
+                
+                Tooltip bayTip = createToolTip(id, Boolean.TRUE, timeStamp);
+                Tooltip.install(tmp, bayTip);
+                lot.getChildren().add(tmp);
+            }
+        });
+        
+        toolBar.getItems().addAll(serialButton,createBay);
         
         final List<Bay> bays = getParkingBaysFromDB();
         lot.getChildren().addAll(bays);
-
-        VBox vb = new VBox(10);
+ 
+       VBox vb = new VBox(10);
         vb.getChildren().addAll(toolBar);
         vb.getChildren().addAll(lot);
         root.getChildren().addAll(vb);

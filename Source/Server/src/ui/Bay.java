@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import logic.Data_services;
 
 public class Bay extends Parent {
     public static final int SIZE = 100;
@@ -61,6 +62,8 @@ public class Bay extends Parent {
                     setTranslateX(0);
                     setTranslateY(0);
                 }
+                Data_services data = new Data_services();
+                data.savePositionForUI(id,getTranslateX(),getTranslateY());
             }
         });
         setOnMouseDragged(new EventHandler<MouseEvent>() {
