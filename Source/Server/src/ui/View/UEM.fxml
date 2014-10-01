@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="916.0" prefWidth="1281.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.Control.UEMController">
+    <stylesheets>
+        <URL value="@uem.css" />
+    </stylesheets>
+    <children>
+      <ToolBar prefHeight="66.0" prefWidth="1281.0">
+        <items>
+            <ToggleButton fx:id="serialButton" mnemonicParsing="false" onAction="#handleSerialButtonAction" />
+          <Button fx:id="newBay" mnemonicParsing="false" onAction="#handleNewBayButtonAction" />
+        </items>
+      </ToolBar>
+      <Pane id="ParkingLot" fx:id="ParkingLot" layoutY="66.0" prefHeight="813.0" prefWidth="1281.0" style="-fx-background-color: #cccccc;" />
+      <Pane layoutY="877.0" prefHeight="39.0" prefWidth="1281.0">
+         <children>
+            <Label fx:id="serialStatus" layoutX="1149.0" layoutY="11.0" prefHeight="17.0" prefWidth="118.0" text="Sensors Stopped" />
+         </children>
+      </Pane>
+    </children>
+</AnchorPane>

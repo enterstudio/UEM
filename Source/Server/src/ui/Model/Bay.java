@@ -1,7 +1,6 @@
 
-package ui;
+package ui.Model;
 
-import ui.Model.*;
 import ui.*;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;

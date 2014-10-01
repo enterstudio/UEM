@@ -4,6 +4,7 @@ import db_interface.Db_data;
 import db_objects.ParkingBay;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -58,5 +59,13 @@ public class Data_services {
 
     public void savePositionForUI(String id, double x, double y) {
         data.updateUIPosition(id,(int) x,(int) y);
+    }
+    
+    public Boolean getTimeStampByID(String id) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date test = new Date();
+        String timeStamp = dateFormat.format(test);
+        LinkedHashMap results = data.getTimeStampForUI(timeStamp);
+        return results.containsKey(id);
     }
 }

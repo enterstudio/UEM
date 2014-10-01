@@ -20,16 +20,20 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javax.swing.JOptionPane;
 import logic.Data_services;
 import serial_comm.Serial;
@@ -114,6 +118,8 @@ public class UI extends Application {
                     stopSerial();
             }
         });
+        
+        // Create new Bay button
         Image createImage = new Image(getClass().getResourceAsStream("resources\\newbay.gif"));
         ImageView createView = new ImageView(createImage);
         createView.setFitHeight(48);
@@ -149,8 +155,23 @@ public class UI extends Application {
                 lot.getChildren().add(tmp);
             }
         });
+        /// Add Bay Button
         
-        toolBar.getItems().addAll(serialButton,createBay);
+        //Settings Button
+        Button settingsBtn = new Button("Settings");
+        settingsBtn.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                Stage secondaryStage = new Stage(StageStyle.TRANSPARENT);
+                secondaryStage.initModality(Modality.WINDOW_MODAL);
+                secondaryStage.initOwner(primaryStage);
+                showSettingsWindow(secondaryStage);
+            }
+        });
+        //End settings button
+        
+        toolBar.getItems().addAll(serialButton,createBay, settingsBtn);
         
         final List<Bay> bays = getParkingBaysFromDB();
         lot.getChildren().addAll(bays);
@@ -161,6 +182,19 @@ public class UI extends Application {
         root.getChildren().addAll(vb);
         
         
+    }
+    
+    private void showSettingsWindow(Stage stage) {
+        Pane root = new Pane();
+        root.setStyle("-fx-background-color: rgb(0,50,70);");
+        Scene scene = new Scene(root, 200, 300);
+
+        Label label = new Label("Over-time alert");
+        TextField textField = new TextField();
+        
+        root.getChildren().addAll(label,textField);
+        stage.setScene(scene);
+        stage.show();
     }
     
     private List<Bay> getParkingBaysFromDB() {

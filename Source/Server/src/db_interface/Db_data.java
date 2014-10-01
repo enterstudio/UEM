@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -178,5 +179,29 @@ public class Db_data {
             Logger lgr = Logger.getLogger(Db_data.class.getName());
             lgr.log(Level.SEVERE, ex.getMessage(), ex);
         }
+    }
+
+    public LinkedHashMap getTimeStampForUI(String in) {
+        try {
+            conn.connect();
+            LinkedHashMap data = new LinkedHashMap();
+            Connection con = conn.getConnection();
+            PreparedStatement pst = con.prepareStatement("SELECT * FROM parking_bay WHERE time_of_change < '"+in+"' AND state = 0");
+            ResultSet rs = pst.executeQuery();
+            ParkingBay tmp = new ParkingBay();
+            while (rs.next()) {
+                tmp.id = rs.getInt("id");
+                tmp.identifier = rs.getString("identifier");
+                tmp.parking_lot_id = rs.getInt("parking_lot_id");
+                tmp.state = rs.getBoolean("state");
+                data.put(tmp.identifier,tmp);
+            }
+            conn.close();
+            return data;
+        } catch (SQLException ex) {
+            Logger lgr = Logger.getLogger(Db_data.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+        return null;
     }
 }
