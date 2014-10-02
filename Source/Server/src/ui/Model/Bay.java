@@ -19,6 +19,7 @@ public class Bay extends Parent {
     private boolean state;
     private String id;
     private Date datetime;
+    private double rotation = 0;
 
     public Date getDatetime() {
         return datetime;
@@ -28,12 +29,13 @@ public class Bay extends Parent {
         this.datetime = datetime;
     }
 
-    public Bay(double x, double y, Point2D dragAnchor, boolean state, String id) {
+    public Bay(double x, double y, Point2D dragAnchor, boolean state, String id, Double rotation) {
         this.x = x;
         this.y = y;
         this.dragAnchor = dragAnchor;
         this.state = state;
         this.id = id;
+        this.rotation = rotation;
     }
     
     public String getBayId() {
@@ -53,17 +55,19 @@ public class Bay extends Parent {
     }
     
 
-    public Bay(double xin, double yin, boolean state, Image image, String id, Date datetime) {
+    public Bay(double xin, double yin, boolean state, Image image, String id, Date datetime, Double rotation) {
         this.x = xin;
         this.y = yin;
         this.state = state;
         this.id = id;
         this.datetime = datetime;
+        this.rotation = rotation;
         
         imageview.setImage(image);
         imageview.setFitHeight(100);
         imageview.setFitWidth(50);
         imageview.preserveRatioProperty();
+        imageview.setRotate(rotation);
         setFocusTraversable(true);
         getChildren().addAll(imageview);
         setCache(true);

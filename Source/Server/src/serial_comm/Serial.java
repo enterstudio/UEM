@@ -57,11 +57,8 @@ public class Serial {
                                         sb.append(serPort.readString(event.getEventValue()));
                                         String ch=sb.toString();
                                         if(ch.endsWith("\r\n")){
-                                            // add timestamp
-                                            line.set(Long.toString(System.currentTimeMillis())
-                                                    .concat(SEPARATOR)
-                                                    .concat(ch.substring(0,
-                                                                  ch.indexOf("\r\n"))));
+                                            line.set(ch.substring(0,
+                                                                  ch.indexOf("\r\n")));
                                             sb=new StringBuilder();
                                         }
                                     } catch (SerialPortException e) {

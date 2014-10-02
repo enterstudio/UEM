@@ -24,11 +24,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Tooltip;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.BoxBlur;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import logic.Data_services;
 import serial_comm.Serial;
 import ui.View.ParkingLotController;
@@ -138,7 +144,7 @@ public class UEM extends Application {
                 img = new Image(getClass().getResourceAsStream("View\\resources\\occupied.gif"));
             }
             tooltip = createToolTip(pbay.identifier, pbay.state, pbay.datetime);
-            Bay tmp = new Bay(pbay.x, pbay.y, pbay.state, img, pbay.identifier, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(pbay.datetime));
+            Bay tmp = new Bay(pbay.x, pbay.y, pbay.state, img, pbay.identifier, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(pbay.datetime), pbay.rotation);
             Tooltip.install(tmp, tooltip);
             list.add(tmp);
         }
@@ -157,11 +163,11 @@ public class UEM extends Application {
         listener=(ov, t, t1) -> {
             Platform.runLater(()->{
                 try{
-                    String[] data=t1.split(Serial.SEPARATOR);
-                    String id = parseSensorID(data[1]);
+                    String data=t1;
+                    String id = parseSensorID(data);
                     Boolean state;
-                    state = !parseState(data[1]).equals("1");
-                    System.out.println(data[1]);
+                    state = !parseState(data).equals("1");
+                    System.out.println(data);
                     updateParkingBayUEM(id, state);
                 } catch(NumberFormatException nfe){
                     System.out.println("NFE: "+t1+" "+nfe.toString());
@@ -172,11 +178,14 @@ public class UEM extends Application {
     }
     
     private String parseSensorID(String iL) {
-        return iL.substring(0, 4);
+        //return iL.substring(0, 4);
+        int i = iL.indexOf(':');
+        return iL.substring(0, i);
     }
 
     private Object parseState(String iL) {
-        return String.valueOf(iL.charAt(5));
+        int i = iL.indexOf(':');
+        return String.valueOf(iL.charAt(i+1));
     }
 
     private void updateParkingBayUEM(String id, Boolean state) {
@@ -227,7 +236,7 @@ public class UEM extends Application {
         Date date = new Date();
         String timeStamp = dateFormat.format(date);
         
-        Bay tmp = new Bay(100, 100, true, new Image(getClass().getResourceAsStream("View\\resources\\available.gif")), id, date);
+        Bay tmp = new Bay(100, 100, true, new Image(getClass().getResourceAsStream("View\\resources\\available.gif")), id, date, 0.0);
         
         Data_services data = new Data_services();
         data.addNewParkingBay(id, "1", timeStamp);
@@ -249,7 +258,9 @@ public class UEM extends Application {
             dialogStage.setTitle("Settings");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
+            dialogStage.initStyle(StageStyle.UNDECORATED);
             Scene scene = new Scene(page);
+            //scene.getRoot().setEffect(new DropShadow(10.0, Color.BLACK));
             dialogStage.setScene(scene);
             
             // Set the person into the controller.
@@ -257,9 +268,11 @@ public class UEM extends Application {
             controller.setDialogStage(dialogStage);
             controller.setTimeOutAlert(timeoutAlert);
             controller.setMainApp(this);
-
+            primaryStage.getScene().getRoot().setEffect(new BoxBlur());
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();
+            
+            primaryStage.getScene().getRoot().setEffect(null);
             
             return controller.isOkClicked();
         } catch (IOException e) {

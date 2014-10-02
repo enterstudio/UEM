@@ -8,4 +8,5 @@ public class ParkingBay {
     public String datetime;
     public int x;
     public int y;
+    public double rotation;
 }

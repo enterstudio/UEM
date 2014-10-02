@@ -22,6 +22,8 @@ public class RootLayoutController {
     private ToggleButton serialButton;
     @FXML
     private Button newBayButton;
+    @FXML
+    private Button settingsButton;
     
     @FXML
     private void handleNewBayButtonAction(ActionEvent event) {
@@ -70,6 +72,15 @@ public class RootLayoutController {
         createView.preserveRatioProperty();
         Tooltip.install(newBayButton, new Tooltip("Create a new Parking Bay"));
         newBayButton.setGraphic(createView);
+        
+        // Settings Button Decoration //
+        Image settingsImage = new Image(getClass().getResourceAsStream("resources\\settings.png"));
+        ImageView settingsView = new ImageView(settingsImage);
+        settingsView.setFitHeight(48);
+        settingsView.setFitWidth(48);
+        settingsView.preserveRatioProperty();
+        Tooltip.install(settingsButton, new Tooltip("Settings"));
+        settingsButton.setGraphic(settingsView);
     }
     
     public void setMainApp(UEM mainApp) {

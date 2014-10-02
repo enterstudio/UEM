@@ -47,6 +47,7 @@ public class Data_services {
                 tmp.x = rs.getInt("x");
                 tmp.y = rs.getInt("y");
                 tmp.datetime = rs.getString("time_of_change");
+                tmp.rotation = rs.getDouble("rotation");
                 results.add(tmp);
             }
             data.closeConn();

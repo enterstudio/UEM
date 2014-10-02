@@ -12,6 +12,6 @@
         <URL value="@uem.css" />
     </stylesheets>
     <children>
-      <Pane id="ParkingLot" fx:id="ParkingLot" layoutY="172.0" prefHeight="736.0" prefWidth="1051.0" style="-fx-background-color: #cccccc;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Pane id="ParkingLot" fx:id="ParkingLot" layoutY="172.0" style="-fx-background-color: #cccccc;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
     </children>
 </AnchorPane>
