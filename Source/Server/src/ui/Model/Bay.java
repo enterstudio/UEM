@@ -1,7 +1,7 @@
 
 package ui.Model;
 
-import ui.*;
+import java.util.Date;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Parent;
@@ -18,6 +18,15 @@ public class Bay extends Parent {
     private Point2D dragAnchor;
     private boolean state;
     private String id;
+    private Date datetime;
+
+    public Date getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(Date datetime) {
+        this.datetime = datetime;
+    }
 
     public Bay(double x, double y, Point2D dragAnchor, boolean state, String id) {
         this.x = x;
@@ -38,13 +47,18 @@ public class Bay extends Parent {
     public void setImage(Image image) {
         this.imageview.setImage(image);
     }
+
+    public boolean isState() {
+        return state;
+    }
     
 
-    public Bay(double xin, double yin, boolean state, Image image, String id) {
+    public Bay(double xin, double yin, boolean state, Image image, String id, Date datetime) {
         this.x = xin;
         this.y = yin;
         this.state = state;
         this.id = id;
+        this.datetime = datetime;
         
         imageview.setImage(image);
         imageview.setFitHeight(100);
@@ -84,6 +98,10 @@ public class Bay extends Parent {
                 setTranslateY(newTranslateY);
             }
         });
+    }
+
+    boolean compareImage(Image expiredImage) {
+        return expiredImage.equals(this.imageview.getImage());
     }
     
     
