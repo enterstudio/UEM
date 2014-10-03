@@ -25,7 +25,7 @@ void loop() {
   sensorState1 = compareState(sensorValue1, sensorState1, sensorID1);
   sensorState2 = compareState(sensorValue2, sensorState2, sensorID2);
   sensorState3 = compareState(sensorValue3, sensorState3, sensorID3);
-  delay(500);
+  delay(250);
 }
 
 int compareState(int x, int y, String ID) {

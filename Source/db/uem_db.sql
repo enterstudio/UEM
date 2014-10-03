@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 15, 2014 at 12:45 AM
+-- Generation Time: Oct 03, 2014 at 03:28 AM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -35,17 +35,23 @@ CREATE TABLE IF NOT EXISTS `parking_bay` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `identifier` (`identifier`),
   KEY `parking_lot_id` (`parking_lot_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Table containing the information related to individual parking bays' AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Table containing the information related to individual parking bays' AUTO_INCREMENT=22 ;
 
 --
 -- Dumping data for table `parking_bay`
 --
 
 INSERT INTO `parking_bay` (`id`, `identifier`, `parking_lot_id`, `state`, `time_of_change`) VALUES
-(1, '0000', 1, 0, '2014-07-31 22:16:54'),
-(2, '0001', 1, 1, '2014-07-31 22:19:26'),
-(3, '0010', 1, 0, '2014-08-16 00:00:00'),
-(4, '0011', 1, 1, '2014-08-13 09:00:00');
+(3, '0010', 1, 1, '2014-10-02 22:48:18'),
+(4, '0011', 1, 0, '2014-08-13 09:00:00'),
+(6, '0100', 1, 1, '2014-10-02 17:18:52'),
+(7, '0101', 1, 1, '2014-10-02 17:18:52'),
+(8, '0110', 1, 1, '2014-10-02 17:18:52'),
+(9, '0000', 1, 1, '2014-10-02 22:48:25'),
+(10, '1101', 1, 1, '2014-10-02 17:18:52'),
+(11, '1011', 1, 1, '2014-10-02 17:18:52'),
+(18, '0001', 1, 1, '2014-10-02 22:48:25'),
+(21, '0111', 1, 1, '2014-10-03 03:13:00');
 
 -- --------------------------------------------------------
 
@@ -57,20 +63,28 @@ CREATE TABLE IF NOT EXISTS `parking_bay_ui` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `x` int(11) NOT NULL DEFAULT '0' COMMENT 'x coordinate for positioning',
   `y` int(11) NOT NULL DEFAULT '0' COMMENT 'y coordinate for positioning',
+  `rotation` double NOT NULL DEFAULT '0',
   `parking_bay_id` int(11) NOT NULL COMMENT 'Reference to parking_bay element',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `parking_bay_id` (`parking_bay_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+  UNIQUE KEY `parking_bay_id` (`parking_bay_id`),
+  UNIQUE KEY `parking_bay_id_2` (`parking_bay_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=172 ;
 
 --
 -- Dumping data for table `parking_bay_ui`
 --
 
-INSERT INTO `parking_bay_ui` (`id`, `x`, `y`, `parking_bay_id`) VALUES
-(1, 1, 1, 1),
-(2, 101, 1, 2),
-(3, 201, 1, 3),
-(4, 301, 1, 4);
+INSERT INTO `parking_bay_ui` (`id`, `x`, `y`, `rotation`, `parking_bay_id`) VALUES
+(3, 200, 14, 0, 3),
+(4, 248, 14, 0, 4),
+(8, 296, 14, 0, 6),
+(9, 100, 170, 180, 7),
+(10, 149, 170, 180, 8),
+(13, 101, 14, 0, 9),
+(15, 198, 170, 180, 10),
+(16, 248, 170, 180, 11),
+(34, 151, 14, 0, 18),
+(171, 298, 170, 180, 21);
 
 -- --------------------------------------------------------
 
