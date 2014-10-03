@@ -29,8 +29,9 @@ public class RootLayoutController {
     
     @FXML
     private void handleNewBayButtonAction(ActionEvent event) {
-        String id = JOptionPane.showInputDialog("Enter sensor ID of parking bay");
-        mainApp.addNewParkingBay(id);         
+        /*String id = JOptionPane.showInputDialog("Enter sensor ID of parking bay");
+        mainApp.addNewParkingBay(id); */
+        boolean okClicked = mainApp.showAddParkingBayDialog();
     }
     @FXML
     private void handleDeleteBayButtonAction(ActionEvent event) {

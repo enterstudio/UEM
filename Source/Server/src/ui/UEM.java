@@ -42,6 +42,7 @@ import ui.View.ParkingLotController;
 import ui.View.RootLayoutController;
 import ui.View.SettingsDialogController;
 import ui.Model.Bay;
+import ui.View.AddParkingBayDialogController;
 
 public class UEM extends Application {
     
@@ -248,6 +249,24 @@ public class UEM extends Application {
         lotController.addNewParkingBay(tmp);
     }
     
+    public void addNewParkingBay(String id, int x, int y, Double rot) {
+        
+                
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        String timeStamp = dateFormat.format(date);
+        
+        Bay tmp = new Bay(x, y, true, new Image(getClass().getResourceAsStream("View\\resources\\available.gif")), id, date, rot);
+        
+        Data_services data = new Data_services();
+        data.addNewParkingBay(id, "1", timeStamp);
+                
+        Tooltip bayTip = createToolTip(id, Boolean.TRUE, timeStamp);
+        Tooltip.install(tmp, bayTip);
+        parkingBays.add(tmp);
+        lotController.addNewParkingBay(tmp);
+    }
+    
     public boolean showSettingsDialog(int time) {
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -276,6 +295,39 @@ public class UEM extends Application {
             primaryStage.getScene().getRoot().setEffect(null);
             
             return controller.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean showAddParkingBayDialog() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(UEM.class.getResource("view/AddParkingBayDialog.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+            
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Add New Parking Bay");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            dialogStage.initStyle(StageStyle.UNDECORATED);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+            
+            // Set the person into the controller.
+            AddParkingBayDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setSensorIDs(getSensorIDs());
+            controller.setMainApp(this);
+            primaryStage.getScene().getRoot().setEffect(new BoxBlur());
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+            
+            primaryStage.getScene().getRoot().setEffect(null);
+            
+            return controller.isAddClicked();
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -343,6 +395,14 @@ public class UEM extends Application {
             lotController.deleteParkingBay(item);
             data.deleteParkingBay(item.getBayId());
         }
+    }
+
+    public List<String> getSensorIDs() {
+        List<String> tmp = new ArrayList<>();
+        tmp.add("0000");
+        tmp.add("0001");
+        tmp.add("0010");
+        return tmp;
     }
     
 }
