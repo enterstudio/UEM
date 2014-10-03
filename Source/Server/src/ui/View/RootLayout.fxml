@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
@@ -16,6 +17,18 @@
             <Button fx:id="deleteBayButton" mnemonicParsing="false" onAction="#handleDeleteBayButtonAction" />
             <Separator orientation="VERTICAL" prefHeight="48.0" />
             <Button fx:id="settingsButton" mnemonicParsing="false" onAction="#handleSettingsButtonAction" />
+            <Button mnemonicParsing="false" onAction="#handleExitButtonAction">
+               <graphic>
+                  <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@resources/exit.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <tooltip>
+                  <Tooltip text="Shutdown" />
+               </tooltip>
+            </Button>
         </items>
       </ToolBar>
    </top>

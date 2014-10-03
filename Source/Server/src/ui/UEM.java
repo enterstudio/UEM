@@ -120,7 +120,7 @@ public class UEM extends Application {
     public void start(Stage primaryStage) throws IOException {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("UEM");
-        
+        this.primaryStage.initStyle(StageStyle.UTILITY);
         initRootLayout();
         
         showParkingLot();
@@ -376,6 +376,11 @@ public class UEM extends Application {
             });
         }
         },0,10000);
+    }
+    
+    public void stopTimeLine() {
+        timer.cancel();
+        timer.purge();
     }
 
     public void addDeleteParkingBay() {

@@ -1,6 +1,7 @@
 
 package ui.View;
 
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -55,7 +56,12 @@ public class RootLayoutController {
             //mainApp.setTimeout(time); 
         }*/
     }
-    
+    @FXML
+    private void handleExitButtonAction(ActionEvent event) {
+        mainApp.stopSerial();
+        mainApp.stopTimeLine();
+        System.exit(0);
+    }
     @FXML
     private void initialize() {
         // Serial Button Decoration //
