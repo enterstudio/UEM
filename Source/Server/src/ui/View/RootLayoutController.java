@@ -23,12 +23,18 @@ public class RootLayoutController {
     @FXML
     private Button newBayButton;
     @FXML
+    private Button deleteBayButton;
+    @FXML
     private Button settingsButton;
     
     @FXML
     private void handleNewBayButtonAction(ActionEvent event) {
         String id = JOptionPane.showInputDialog("Enter sensor ID of parking bay");
         mainApp.addNewParkingBay(id);         
+    }
+    @FXML
+    private void handleDeleteBayButtonAction(ActionEvent event) {
+        mainApp.addDeleteParkingBay();         
     }
     @FXML
     private void handleSerialButtonAction(ActionEvent event) {
@@ -72,6 +78,15 @@ public class RootLayoutController {
         createView.preserveRatioProperty();
         Tooltip.install(newBayButton, new Tooltip("Create a new Parking Bay"));
         newBayButton.setGraphic(createView);
+        
+        // Delete Bay Button Decoration //
+        Image deleteImage = new Image(getClass().getResourceAsStream("resources\\deletebay.gif"));
+        ImageView deleteView = new ImageView(deleteImage);
+        deleteView.setFitHeight(48);
+        deleteView.setFitWidth(24);
+        deleteView.preserveRatioProperty();
+        Tooltip.install(deleteBayButton, new Tooltip("Delete Parking Bay \n (Hold CTRL to select Bays)"));
+        deleteBayButton.setGraphic(deleteView);
         
         // Settings Button Decoration //
         Image settingsImage = new Image(getClass().getResourceAsStream("resources\\settings.png"));

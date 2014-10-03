@@ -4,7 +4,6 @@ import db_interface.Db_data;
 import db_objects.ParkingBay;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -68,5 +67,9 @@ public class Data_services {
         String timeStamp = dateFormat.format(test);
         LinkedHashMap results = data.getTimeStampForUI(timeStamp);
         return results.containsKey(id);
+    }
+
+    public void deleteParkingBay(String bayId) {
+        data.deleteParkingBay(bayId);
     }
 }

@@ -23,6 +23,7 @@ public class Bay extends Parent {
     private String id;
     private Date datetime;
     private double rotation = 0;
+    private boolean selected = false;
 
     public Date getDatetime() {
         return datetime;
@@ -56,6 +57,10 @@ public class Bay extends Parent {
     public boolean isState() {
         return state;
     }
+
+    public boolean isSelected() {
+        return selected;
+    }
     
 
     public Bay(double xin, double yin, boolean state, Image image, String id, Date datetime, Double rotation) {
@@ -84,8 +89,15 @@ public class Bay extends Parent {
                 x = getTranslateX();
                 y = getTranslateY();
                 dragAnchor = new Point2D(t.getSceneX(), t.getSceneY());
-                imageview.setEffect(new Glow(0.3));
+                
                 imageview.setCursor(Cursor.MOVE);
+                if (t.isControlDown()) {
+                    selected = true;
+                    imageview.setEffect(new Glow(0.3));
+                } else {
+                    imageview.setEffect(null);
+                    selected = false;
+                }
             }
         });
         setOnMouseReleased(new EventHandler<MouseEvent>() {
@@ -97,8 +109,12 @@ public class Bay extends Parent {
                 }
                 Data_services data = new Data_services();
                 data.savePositionForUI(id,getTranslateX(),getTranslateY());
-                imageview.setEffect(null);
+                if (!t.isControlDown()) {
+                    imageview.setEffect(null);
+                    selected = false;
+                }
                 imageview.setCursor(Cursor.HAND);
+                
             }
         });
         setOnMouseDragged(new EventHandler<MouseEvent>() {

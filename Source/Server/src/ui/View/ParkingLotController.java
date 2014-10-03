@@ -30,5 +30,9 @@ public class ParkingLotController {
     public void addNewParkingBay(Bay tmp) {
         ParkingLot.getChildren().add(tmp);
     }
+    
+    public void deleteParkingBay(Bay tmp) {
+        ParkingLot.getChildren().remove(tmp);
+    }
 
 }

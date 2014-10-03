@@ -13,6 +13,8 @@
             <ToggleButton fx:id="serialButton" mnemonicParsing="false" onAction="#handleSerialButtonAction" />
             <Separator orientation="VERTICAL" prefHeight="48.0" />
           <Button fx:id="newBayButton" mnemonicParsing="false" onAction="#handleNewBayButtonAction" />
+            <Button fx:id="deleteBayButton" mnemonicParsing="false" onAction="#handleDeleteBayButtonAction" />
+            <Separator orientation="VERTICAL" prefHeight="48.0" />
             <Button fx:id="settingsButton" mnemonicParsing="false" onAction="#handleSettingsButtonAction" />
         </items>
       </ToolBar>

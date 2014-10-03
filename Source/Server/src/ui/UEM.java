@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -323,6 +324,25 @@ public class UEM extends Application {
             });
         }
         },0,10000);
+    }
+
+    public void addDeleteParkingBay() {
+        int i = 0;
+        List<Bay> removeList = new ArrayList<>();
+        Data_services data = new Data_services();
+        for (Node bay : parkingBays) {
+            Bay tmp = (Bay) bay;
+            if (tmp.isSelected()) {
+                removeList.add(tmp);
+            }
+            i++;
+        }
+        
+        for (Bay item : removeList) {
+            parkingBays.remove(item);
+            lotController.deleteParkingBay(item);
+            data.deleteParkingBay(item.getBayId());
+        }
     }
     
 }

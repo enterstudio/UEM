@@ -204,4 +204,19 @@ public class Db_data {
         }
         return null;
     }
+
+    public void deleteParkingBay(String bayId) {
+        try {
+            conn.connect();
+            LinkedHashMap data = new LinkedHashMap();
+            Connection con = conn.getConnection();
+            PreparedStatement pst = con.prepareStatement("DELETE FROM parking_bay WHERE identifier = ?");
+            pst.setString(1, bayId);
+            pst.execute();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger lgr = Logger.getLogger(Db_data.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+    }
 }
