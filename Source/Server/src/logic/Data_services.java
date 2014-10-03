@@ -72,4 +72,8 @@ public class Data_services {
     public void deleteParkingBay(String bayId) {
         data.deleteParkingBay(bayId);
     }
+
+    public void addNewParkingBay(String sensorID, String lotID, int x, int y, Double rot, String timeStamp) {
+        data.addNewParkingBayToDB(sensorID,lotID,x,y,rot,timeStamp);
+    }
 }

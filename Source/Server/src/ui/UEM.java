@@ -259,7 +259,7 @@ public class UEM extends Application {
         Bay tmp = new Bay(x, y, true, new Image(getClass().getResourceAsStream("View\\resources\\available.gif")), id, date, rot);
         
         Data_services data = new Data_services();
-        data.addNewParkingBay(id, "1", timeStamp);
+        data.addNewParkingBay(id, "1", x,y,rot,timeStamp);
                 
         Tooltip bayTip = createToolTip(id, Boolean.TRUE, timeStamp);
         Tooltip.install(tmp, bayTip);

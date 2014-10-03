@@ -219,4 +219,41 @@ public class Db_data {
             lgr.log(Level.SEVERE, ex.getMessage(), ex);
         }
     }
+
+    public void addNewParkingBayToDB(String sensorID, String lotID, int x, int y, Double rot, String timeStamp) {
+        try {
+            conn.connect();
+            Connection con = conn.getConnection();
+
+            String query = "INSERT INTO parking_bay (state,time_of_change,identifier,parking_lot_id) VALUES (?,?,?,?)";
+            PreparedStatement pst = con.prepareStatement(query);
+            pst.setBoolean(1, true);
+            pst.setString(2, timeStamp);
+            pst.setString(3, sensorID);
+            pst.setInt(4, Integer.parseInt(lotID));
+            
+            pst.execute();
+            
+            pst = con.prepareStatement("SELECT id FROM parking_bay WHERE identifier = ?");
+            pst.setString(1, sensorID);
+            ResultSet rs = pst.executeQuery();
+            int tmpID = 0;
+            while (rs.next()) {
+                tmpID = rs.getInt("id");
+            }
+            
+            query = "INSERT INTO parking_bay_ui (x,y,rotation,parking_bay_id) VALUES (?,?,?,?)";
+            pst = con.prepareStatement(query);
+            pst.setInt(1, x);
+            pst.setInt(2, y);
+            pst.setDouble(3, rot);
+            pst.setInt(4, tmpID);
+            
+            pst.execute();
+            conn.close();            
+        } catch (SQLException ex) {
+            Logger lgr = Logger.getLogger(Db_data.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+    }
 }
