@@ -4,7 +4,10 @@ package ui.Model;
 import java.util.Date;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -68,6 +71,7 @@ public class Bay extends Parent {
         imageview.setFitWidth(50);
         imageview.preserveRatioProperty();
         imageview.setRotate(rotation);
+        imageview.setCursor(Cursor.HAND);
         setFocusTraversable(true);
         getChildren().addAll(imageview);
         setCache(true);
@@ -80,6 +84,8 @@ public class Bay extends Parent {
                 x = getTranslateX();
                 y = getTranslateY();
                 dragAnchor = new Point2D(t.getSceneX(), t.getSceneY());
+                imageview.setEffect(new Glow(0.3));
+                imageview.setCursor(Cursor.MOVE);
             }
         });
         setOnMouseReleased(new EventHandler<MouseEvent>() {
@@ -91,6 +97,8 @@ public class Bay extends Parent {
                 }
                 Data_services data = new Data_services();
                 data.savePositionForUI(id,getTranslateX(),getTranslateY());
+                imageview.setEffect(null);
+                imageview.setCursor(Cursor.HAND);
             }
         });
         setOnMouseDragged(new EventHandler<MouseEvent>() {
