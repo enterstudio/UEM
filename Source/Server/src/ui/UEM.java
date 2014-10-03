@@ -25,14 +25,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Tooltip;
-import javafx.scene.effect.BlurType;
 import javafx.scene.effect.BoxBlur;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -120,7 +116,7 @@ public class UEM extends Application {
     public void start(Stage primaryStage) throws IOException {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("UEM");
-        this.primaryStage.initStyle(StageStyle.UTILITY);
+        //this.primaryStage.initStyle(StageStyle.UTILITY);
         initRootLayout();
         
         showParkingLot();
