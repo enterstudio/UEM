@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -12,11 +13,24 @@
       <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <items>
             <ToggleButton fx:id="serialButton" mnemonicParsing="false" onAction="#handleSerialButtonAction" />
-            <Separator orientation="VERTICAL" prefHeight="48.0" />
+            <Separator orientation="VERTICAL" prefHeight="48.0" prefWidth="20.0" />
           <Button fx:id="newBayButton" mnemonicParsing="false" onAction="#handleNewBayButtonAction" />
             <Button fx:id="deleteBayButton" mnemonicParsing="false" onAction="#handleDeleteBayButtonAction" />
-            <Separator orientation="VERTICAL" prefHeight="48.0" />
+            <Separator orientation="VERTICAL" prefHeight="48.0" prefWidth="20.0" />
+            <Button mnemonicParsing="false" onAction="#handleStatsButtonAction">
+               <tooltip>
+                  <Tooltip text="View Statistics" />
+               </tooltip>
+               <graphic>
+                  <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@resources/stats.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
             <Button fx:id="settingsButton" mnemonicParsing="false" onAction="#handleSettingsButtonAction" />
+            <Separator orientation="VERTICAL" prefHeight="48.0" prefWidth="20.0" />
             <Button mnemonicParsing="false" onAction="#handleExitButtonAction">
                <graphic>
                   <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
@@ -35,7 +49,7 @@
    <bottom>
       <Pane prefHeight="28.0" prefWidth="1274.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="serialStatus" layoutX="1170.0" layoutY="6.0" text="Sensors Stopped" />
+            <Label fx:id="serialStatus" layoutX="14.0" layoutY="6.0" text="Sensors Stopped" />
          </children>
       </Pane>
    </bottom>

@@ -7,12 +7,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="ui.View.AddParkingBayDialogController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.View.AddParkingBayDialogController">
     <stylesheets>
         <URL value="@uem.css" />
     </stylesheets>
    <children>
-      <TabPane prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane prefHeight="435.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Single Bay">
             <content>
@@ -40,17 +40,17 @@
                               <Slider fx:id="rotationInputField" majorTickUnit="45.0" max="360.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                            </children>
                         </GridPane>
-                        <Button layoutX="534.0" layoutY="332.0" mnemonicParsing="false" text="Cancel" />
-                        <Button layoutX="488.0" layoutY="332.0" mnemonicParsing="false" onAction="#handleAdd" text="Add" />
+                        <Button layoutX="504.0" layoutY="380.0" mnemonicParsing="false" onAction="#handleCancel" text="Cancel" />
+                        <Button layoutX="454.0" layoutY="380.0" mnemonicParsing="false" onAction="#handleSingleAdd" text="Add" />
                      </children>
                   </AnchorPane>
             </content>
           </Tab>
           <Tab text="Multiple Horizontal Bays">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="429.0" prefWidth="600.0">
                      <children>
-                        <GridPane layoutX="17.0" layoutY="14.0" prefHeight="307.0" prefWidth="566.0">
+                        <GridPane layoutX="18.0" layoutY="14.0" prefHeight="356.0" prefWidth="570.0">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -59,8 +59,8 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="65.0" minHeight="0.0" prefHeight="33.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="144.0" minHeight="10.0" prefHeight="111.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
                               <Label text="Enter number of Parking Bays:" />
@@ -68,25 +68,69 @@
                               <Label text="Y-Coordinate:" GridPane.rowIndex="2" />
                               <Label text="Rotation (deg):" GridPane.rowIndex="3" />
                               <Label text="Sensor IDs:" GridPane.rowIndex="4" />
-                              <TextField GridPane.columnIndex="1" />
-                              <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <Slider majorTickUnit="45.0" max="360.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <GridPane GridPane.columnIndex="1" GridPane.rowIndex="4">
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                </columnConstraints>
-                              </GridPane>
+                              <TextField fx:id="noBaysInputField" GridPane.columnIndex="1" />
+                              <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="xHInputField" />
+                              <TextField fx:id="yHInputField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Slider fx:id="rotationHInputField" majorTickUnit="45.0" max="360.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <ScrollPane hbarPolicy="NEVER" prefViewportHeight="61.0" prefViewportWidth="283.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                 <content>
+                                    <GridPane fx:id="sensorAssignGrid" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="152.0" minWidth="10.0" prefWidth="92.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="206.0" minWidth="10.0" prefWidth="191.0" />
+                                      </columnConstraints>
+                                    </GridPane>
+                                 </content>
+                              </ScrollPane>
                            </children>
                         </GridPane>
+                        <Button layoutX="454.0" layoutY="380.0" mnemonicParsing="false" onAction="#handleHAdd" text="Add" />
+                        <Button layoutX="504.0" layoutY="380.0" mnemonicParsing="false" onAction="#handleCancel" text="Cancel" />
                      </children>
                   </AnchorPane>
             </content>
           </Tab>
             <Tab text="Multiple Vertical Bays">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <GridPane layoutX="18.0" layoutY="14.0" prefHeight="356.0" prefWidth="570.0">
+                           <children>
+                              <Label text="Enter number of Parking Bays:" />
+                              <Label text="X-Coordinate:" GridPane.rowIndex="1" />
+                              <Label text="Y-Coordinate:" GridPane.rowIndex="2" />
+                              <Label text="Rotation (deg):" GridPane.rowIndex="3" />
+                              <Label text="Sensor IDs:" GridPane.rowIndex="4" />
+                              <TextField fx:id="noBaysInputFieldV" GridPane.columnIndex="1" />
+                              <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="xVInputField" />
+                              <TextField fx:id="yVInputField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Slider fx:id="rotationVInputField" majorTickUnit="45.0" max="360.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <ScrollPane hbarPolicy="NEVER" prefViewportHeight="61.0" prefViewportWidth="283.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                 <content>
+                                    <GridPane fx:id="sensorAssignGridV" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="152.0" minWidth="10.0" prefWidth="92.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="206.0" minWidth="10.0" prefWidth="191.0" />
+                                       </columnConstraints>
+                                    </GridPane>
+                                 </content>
+                              </ScrollPane>
+                           </children>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="65.0" minHeight="0.0" prefHeight="33.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="144.0" minHeight="10.0" prefHeight="111.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                        </GridPane>
+                        <Button layoutX="504.0" layoutY="380.0" mnemonicParsing="false" onAction="#handleCancel" text="Cancel" />
+                        <Button layoutX="454.0" layoutY="380.0" mnemonicParsing="false" onAction="#handleVAdd" text="Add" />
+                     </children></AnchorPane>
               </content>
             </Tab>
         </tabs>

@@ -18,7 +18,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Slider fx:id="overTimeSlider" blockIncrement="5.0" majorTickUnit="24.0" max="48.0" minorTickCount="24" onDragDetected="#handleSliderChange" prefHeight="38.0" prefWidth="204.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1">
+            <Slider fx:id="overTimeSlider" blockIncrement="5.0" majorTickUnit="24.0" max="48.0" minorTickCount="24" prefHeight="38.0" prefWidth="204.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1">
             </Slider>
             <Label text="Overtime Alert (Hours):" />
             <Label fx:id="hoursDisplayLabel" GridPane.columnIndex="1">

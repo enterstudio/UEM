@@ -38,7 +38,7 @@ public class Data_servicesTest {
     @Test
     public void testSensorStateChange() {
         System.out.println("sensorStateChange");
-        String sensorID = "00000010";
+        String sensorID = "0010";
         boolean state = true;
         Data_services instance = new Data_services();
         instance.sensorStateChange(sensorID, state);
@@ -102,6 +102,52 @@ public class Data_servicesTest {
         Boolean result = instance.getTimeStampByID(id);
         assertEquals(expResult, result);
         
+    }
+
+    /**
+     * Test of addNewParkingBay method, of class Data_services.
+     */
+    @Test
+    public void testAddNewParkingBay_3args() {
+        System.out.println("addNewParkingBay");
+        String sensorID = "";
+        String lotID = "";
+        String timeStamp = "";
+        Data_services instance = new Data_services();
+        instance.addNewParkingBay(sensorID, lotID, timeStamp);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of deleteParkingBay method, of class Data_services.
+     */
+    @Test
+    public void testDeleteParkingBay() {
+        System.out.println("deleteParkingBay");
+        String bayId = "";
+        Data_services instance = new Data_services();
+        instance.deleteParkingBay(bayId);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of addNewParkingBay method, of class Data_services.
+     */
+    @Test
+    public void testAddNewParkingBay_6args() {
+        System.out.println("addNewParkingBay");
+        String sensorID = "";
+        String lotID = "";
+        int x = 0;
+        int y = 0;
+        Double rot = null;
+        String timeStamp = "";
+        Data_services instance = new Data_services();
+        instance.addNewParkingBay(sensorID, lotID, x, y, rot, timeStamp);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
     
 }

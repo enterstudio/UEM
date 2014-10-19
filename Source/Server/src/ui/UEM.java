@@ -39,6 +39,7 @@ import ui.View.RootLayoutController;
 import ui.View.SettingsDialogController;
 import ui.Model.Bay;
 import ui.View.AddParkingBayDialogController;
+import ui.View.ParkingStatisticsController;
 
 public class UEM extends Application {
     
@@ -117,6 +118,7 @@ public class UEM extends Application {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("UEM");
         //this.primaryStage.initStyle(StageStyle.UTILITY);
+        this.primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("View\\resources\\logo.gif")));
         initRootLayout();
         
         showParkingLot();
@@ -246,8 +248,6 @@ public class UEM extends Application {
     }
     
     public void addNewParkingBay(String id, int x, int y, Double rot) {
-        
-                
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
         String timeStamp = dateFormat.format(date);
@@ -259,6 +259,17 @@ public class UEM extends Application {
                 
         Tooltip bayTip = createToolTip(id, Boolean.TRUE, timeStamp);
         Tooltip.install(tmp, bayTip);
+        for (Node bay: parkingBays) {
+            Bay tbay = (Bay) bay;
+            String t = tbay.getBayId();
+            if (tbay.getBayId().equals(id)) {
+                lotController.deleteParkingBay(tbay);
+                parkingBays.remove(tbay);
+                break;
+            }
+        }
+        
+            //lotController.deleteParkingBay(tmp);
         parkingBays.add(tmp);
         lotController.addNewParkingBay(tmp);
     }
@@ -324,6 +335,38 @@ public class UEM extends Application {
             primaryStage.getScene().getRoot().setEffect(null);
             
             return controller.isAddClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean showParkingStatistics() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(UEM.class.getResource("view/ParkingStatistics.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+            
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Parking Statistics");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            dialogStage.initStyle(StageStyle.DECORATED);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+            
+            // Set the person into the controller.
+            ParkingStatisticsController controller = loader.getController();
+            Data_services data = new Data_services();
+            controller.setBaysIds(data.getBayUsage());
+            primaryStage.getScene().getRoot().setEffect(new BoxBlur());
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+            
+            primaryStage.getScene().getRoot().setEffect(null);
+            
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
             return false;

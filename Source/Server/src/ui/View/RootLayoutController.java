@@ -1,7 +1,6 @@
 
 package ui.View;
 
-import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,7 +10,6 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javax.swing.JOptionPane;
 import ui.UEM;
 
 public class RootLayoutController {
@@ -30,8 +28,6 @@ public class RootLayoutController {
     
     @FXML
     private void handleNewBayButtonAction(ActionEvent event) {
-        /*String id = JOptionPane.showInputDialog("Enter sensor ID of parking bay");
-        mainApp.addNewParkingBay(id); */
         boolean okClicked = mainApp.showAddParkingBayDialog();
     }
     @FXML
@@ -63,6 +59,10 @@ public class RootLayoutController {
         System.exit(0);
     }
     @FXML
+    private void handleStatsButtonAction(ActionEvent event) {
+        mainApp.showParkingStatistics();
+    }
+    @FXML
     private void initialize() {
         // Serial Button Decoration //
         Image startImage = new Image(getClass().getResourceAsStream("resources\\start.png"));
@@ -81,7 +81,7 @@ public class RootLayoutController {
         Image createImage = new Image(getClass().getResourceAsStream("resources\\newbay.gif"));
         ImageView createView = new ImageView(createImage);
         createView.setFitHeight(48);
-        createView.setFitWidth(24);
+        createView.setFitWidth(48);
         createView.preserveRatioProperty();
         Tooltip.install(newBayButton, new Tooltip("Create a new Parking Bay"));
         newBayButton.setGraphic(createView);
@@ -90,7 +90,7 @@ public class RootLayoutController {
         Image deleteImage = new Image(getClass().getResourceAsStream("resources\\deletebay.gif"));
         ImageView deleteView = new ImageView(deleteImage);
         deleteView.setFitHeight(48);
-        deleteView.setFitWidth(24);
+        deleteView.setFitWidth(48);
         deleteView.preserveRatioProperty();
         Tooltip.install(deleteBayButton, new Tooltip("Delete Parking Bay \n (Hold CTRL to select Bays)"));
         deleteBayButton.setGraphic(deleteView);
