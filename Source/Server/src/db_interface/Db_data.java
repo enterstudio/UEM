@@ -300,4 +300,25 @@ public class Db_data {
         }
         return null;
     }
+
+    public int getUserLevel(String username, String password) {
+        int userLevel = -1;
+        try {
+            conn.connect();
+            Connection con = conn.getConnection();
+            PreparedStatement pst = con.prepareStatement("SELECT level FROM personnel WHERE username = ? AND password = ?");
+            pst.setString(1, username);
+            pst.setString(2, password);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                userLevel = rs.getInt("level");
+            }
+            conn.close();
+            return userLevel;
+        } catch (SQLException ex) {
+            Logger lgr = Logger.getLogger(Db_data.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+        return userLevel;
+    }
 }

@@ -82,4 +82,8 @@ public class Data_services {
     public void addNewParkingBay(String sensorID, String lotID, int x, int y, Double rot, String timeStamp) {
         data.addNewParkingBayToDB(sensorID,lotID,x,y,rot,timeStamp);
     }
+
+    public int getUserLevel(String username, String password) {
+        return data.getUserLevel(username, password);
+    }
 }

@@ -17,7 +17,7 @@
           <Button fx:id="newBayButton" mnemonicParsing="false" onAction="#handleNewBayButtonAction" />
             <Button fx:id="deleteBayButton" mnemonicParsing="false" onAction="#handleDeleteBayButtonAction" />
             <Separator orientation="VERTICAL" prefHeight="48.0" prefWidth="20.0" />
-            <Button mnemonicParsing="false" onAction="#handleStatsButtonAction">
+            <Button fx:id="statsButton" mnemonicParsing="false" onAction="#handleStatsButtonAction">
                <tooltip>
                   <Tooltip text="View Statistics" />
                </tooltip>

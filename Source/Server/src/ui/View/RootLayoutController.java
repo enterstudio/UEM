@@ -14,6 +14,7 @@ import ui.UEM;
 
 public class RootLayoutController {
     private UEM mainApp;
+    private int userLevel = -1;
     
     @FXML
     private Label serialStatus;
@@ -23,6 +24,8 @@ public class RootLayoutController {
     private Button newBayButton;
     @FXML
     private Button deleteBayButton;
+    @FXML
+    private Button statsButton;
     @FXML
     private Button settingsButton;
     
@@ -102,11 +105,27 @@ public class RootLayoutController {
         settingsView.setFitWidth(48);
         settingsView.preserveRatioProperty();
         Tooltip.install(settingsButton, new Tooltip("Settings"));
-        settingsButton.setGraphic(settingsView);
+        settingsButton.setGraphic(settingsView);   
     }
-    
+    public void setRights() {
+        if (userLevel == 0) {
+            serialButton.setDisable(true);
+            newBayButton.setDisable(true);
+            deleteBayButton.setDisable(true);
+            statsButton.setDisable(true);
+            settingsButton.setDisable(true);
+        }
+        else if (userLevel == 2) {
+            newBayButton.setDisable(true);
+            deleteBayButton.setDisable(true);
+        }
+    }
     public void setMainApp(UEM mainApp) {
         this.mainApp = mainApp;
+    }
+    
+    public void setUserLevel(int userLevel) {
+        this.userLevel = userLevel;
     }
     
 }

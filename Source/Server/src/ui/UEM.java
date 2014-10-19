@@ -39,6 +39,7 @@ import ui.View.RootLayoutController;
 import ui.View.SettingsDialogController;
 import ui.Model.Bay;
 import ui.View.AddParkingBayDialogController;
+import ui.View.LoginDialogController;
 import ui.View.ParkingStatisticsController;
 
 public class UEM extends Application {
@@ -46,6 +47,7 @@ public class UEM extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
     private ParkingLotController lotController;
+    private RootLayoutController rootController;
     
     private ObservableList<Bay> parkingBays = FXCollections.observableArrayList();
     private int timeoutAlert;
@@ -56,6 +58,8 @@ public class UEM extends Application {
     private final BooleanProperty connection = new SimpleBooleanProperty(false);
     
     Timer timer = new java.util.Timer();
+    
+    private int userLevel = -1;
     
     public UEM() {
         try {
@@ -83,10 +87,9 @@ public class UEM extends Application {
             // Give the controller access to the main app.
             RootLayoutController controller = loader.getController();
             controller.setMainApp(this);
+            rootController = controller;
         
-            primaryStage.show();
             
-            setTimeline();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -113,16 +116,60 @@ public class UEM extends Application {
         return primaryStage;
     }
     
+    public boolean authenticateUser(String username, String password) {
+        Data_services data = new Data_services();
+        userLevel = data.getUserLevel(username, password);
+        rootController.setUserLevel(userLevel);
+        return userLevel >= 0;
+    }
+    
+    private boolean loginPrompt() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(UEM.class.getResource("view/LoginDialog.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+            
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Login");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            dialogStage.initStyle(StageStyle.UNDECORATED);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+            
+            // Set the person into the controller.
+            LoginDialogController controller = loader.getController();
+            controller.setMainApp(this);
+            controller.setDialogStage(dialogStage);
+            primaryStage.getScene().getRoot().setEffect(new BoxBlur());
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+            
+            primaryStage.getScene().getRoot().setEffect(null);
+            
+            return controller.isLoginClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
     @Override
     public void start(Stage primaryStage) throws IOException {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("UEM");
         //this.primaryStage.initStyle(StageStyle.UTILITY);
         this.primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("View\\resources\\logo.gif")));
+
         initRootLayout();
+        if (loginPrompt()) {
+            rootController.setRights();
+            primaryStage.show();
+        }
         
         showParkingLot();
-        
+        setTimeline();
         addSerialListener();
         
     }
