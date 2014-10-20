@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 19, 2014 at 11:11 PM
+-- Generation Time: Oct 03, 2014 at 03:28 AM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -23,31 +23,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `bay_log`
---
-
-CREATE TABLE IF NOT EXISTS `bay_log` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `identifier` varchar(8) DEFAULT NULL,
-  `stype` varchar(100) DEFAULT NULL,
-  `event` varchar(100) DEFAULT NULL,
-  `time_of_change` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Logging of changes made to parking bays' AUTO_INCREMENT=5 ;
-
---
--- Dumping data for table `bay_log`
---
-
-INSERT INTO `bay_log` (`id`, `identifier`, `stype`, `event`, `time_of_change`) VALUES
-(1, '0010', 'STATE', 'false', '2014-10-18 18:10:01'),
-(2, '0010', 'STATE', 'false', '2014-10-18 18:10:39'),
-(3, '0000', 'STATE', 'false', '2014-10-28 00:00:00'),
-(4, '0001', 'STATE', 'false', '2014-10-01 00:00:00');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `parking_bay`
 --
 
@@ -60,23 +35,23 @@ CREATE TABLE IF NOT EXISTS `parking_bay` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `identifier` (`identifier`),
   KEY `parking_lot_id` (`parking_lot_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Table containing the information related to individual parking bays' AUTO_INCREMENT=57 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Table containing the information related to individual parking bays' AUTO_INCREMENT=22 ;
 
 --
 -- Dumping data for table `parking_bay`
 --
 
 INSERT INTO `parking_bay` (`id`, `identifier`, `parking_lot_id`, `state`, `time_of_change`) VALUES
-(3, '0010', 1, 1, '2014-10-18 18:10:39'),
+(3, '0010', 1, 1, '2014-10-02 22:48:18'),
 (4, '0011', 1, 0, '2014-08-13 09:00:00'),
 (6, '0100', 1, 1, '2014-10-02 17:18:52'),
 (7, '0101', 1, 1, '2014-10-02 17:18:52'),
 (8, '0110', 1, 1, '2014-10-02 17:18:52'),
+(9, '0000', 1, 1, '2014-10-02 22:48:25'),
 (10, '1101', 1, 1, '2014-10-02 17:18:52'),
 (11, '1011', 1, 1, '2014-10-02 17:18:52'),
-(21, '0111', 1, 1, '2014-10-03 03:13:00'),
-(44, '0000', 1, 1, '2014-10-19 02:07:43'),
-(45, '0001', 1, 1, '2014-10-19 02:09:10');
+(18, '0001', 1, 1, '2014-10-02 22:48:25'),
+(21, '0111', 1, 1, '2014-10-03 03:13:00');
 
 -- --------------------------------------------------------
 
@@ -93,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `parking_bay_ui` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `parking_bay_id` (`parking_bay_id`),
   UNIQUE KEY `parking_bay_id_2` (`parking_bay_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=246 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=172 ;
 
 --
 -- Dumping data for table `parking_bay_ui`
@@ -105,11 +80,11 @@ INSERT INTO `parking_bay_ui` (`id`, `x`, `y`, `rotation`, `parking_bay_id`) VALU
 (8, 296, 14, 0, 6),
 (9, 100, 170, 180, 7),
 (10, 149, 170, 180, 8),
+(13, 101, 14, 0, 9),
 (15, 198, 170, 180, 10),
 (16, 248, 170, 180, 11),
-(171, 298, 170, 180, 21),
-(224, 102, 14, 0, 44),
-(227, 152, 14, 0, 45);
+(34, 151, 14, 0, 18),
+(171, 298, 170, 180, 21);
 
 -- --------------------------------------------------------
 
@@ -147,16 +122,14 @@ CREATE TABLE IF NOT EXISTS `personnel` (
   `level` enum('0','2','5') DEFAULT '0' COMMENT 'Security clearance level of person: ''0'' user level rights; ''2'' security personnel rights; ''5'' administrative rights',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Table containing data to grant access to system functionality for personnel' AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Table containing data to grant access to system functionality for personnel' AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `personnel`
 --
 
 INSERT INTO `personnel` (`id`, `username`, `password`, `name`, `surname`, `tel`, `email`, `level`) VALUES
-(1, 'admin', 'admin', 'admin', '', '', '', '5'),
-(2, 'security', 'security', '', '', '', '', '2'),
-(3, 'user', 'user', '', '', '', '', '0');
+(1, 'admin', 'admin', 'admin', '', '', '', '5');
 
 -- --------------------------------------------------------
 

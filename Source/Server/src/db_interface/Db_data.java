@@ -156,7 +156,7 @@ public class Db_data {
             LinkedHashMap data = new LinkedHashMap();
             conn.connect();
             Connection con = conn.getConnection();
-            PreparedStatement pst = con.prepareStatement("SELECT id FROM parking_bay WHERE identifier = \""+id+"\"");
+            PreparedStatement pst = con.prepareStatement("SELECT id FROM parking_bay WHERE identifier = "+id);
             ResultSet rs = pst.executeQuery();
             int tmp_id = 0;
             while (rs.next()) {

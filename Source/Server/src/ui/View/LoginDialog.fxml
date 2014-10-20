@@ -7,7 +7,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="235.0" prefWidth="385.0" stylesheets="@uem.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.View.LoginDialogController">
+
+<AnchorPane id="AnchorPane" prefHeight="235.0" prefWidth="385.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="ui.View.LoginDialogController">
    <children>
       <GridPane layoutX="41.0" layoutY="93.0" prefHeight="80.0" prefWidth="303.0">
         <columnConstraints>
@@ -30,8 +31,7 @@
             <Font size="50.0" />
          </font>
       </Label>
-      <Button layoutX="265.0" layoutY="188.0" mnemonicParsing="false" onAction="#handleLoginButtonAction" text="Login" />
+      <Button layoutX="277.0" layoutY="188.0" mnemonicParsing="false" onAction="#handleLoginButtonAction" text="Login" />
       <Label fx:id="validationLabel" layoutX="83.0" layoutY="173.0" textFill="RED" />
-      <Button layoutX="318.0" layoutY="188.0" mnemonicParsing="false" onAction="#handleExitButtonAction" text="Exit" />
    </children>
 </AnchorPane>

@@ -7,7 +7,6 @@ package ui.View;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -35,12 +34,6 @@ public class LoginDialogController implements Initializable {
             dialogStage.close();
         else
             validationLabel.setText("Invalid Username or Password");       
-    }
-    @FXML
-    private void handleExitButtonAction(ActionEvent event) {
-        mainApp.stopSerial();
-        mainApp.stopTimeLine();
-        System.exit(0);
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
