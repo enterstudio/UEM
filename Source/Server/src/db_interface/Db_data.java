@@ -156,7 +156,7 @@ public class Db_data {
             LinkedHashMap data = new LinkedHashMap();
             conn.connect();
             Connection con = conn.getConnection();
-            PreparedStatement pst = con.prepareStatement("SELECT id FROM parking_bay WHERE identifier = "+id);
+            PreparedStatement pst = con.prepareStatement("SELECT id FROM parking_bay WHERE identifier = \""+id+"\"");
             ResultSet rs = pst.executeQuery();
             int tmp_id = 0;
             while (rs.next()) {
@@ -225,12 +225,13 @@ public class Db_data {
             conn.connect();
             Connection con = conn.getConnection();
 
-            String query = "INSERT INTO parking_bay (state,time_of_change,identifier,parking_lot_id) VALUES (?,?,?,?)";
+            String query = "INSERT INTO parking_bay (state,time_of_change,identifier,parking_lot_id) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE identifier = ?";
             PreparedStatement pst = con.prepareStatement(query);
             pst.setBoolean(1, true);
             pst.setString(2, timeStamp);
             pst.setString(3, sensorID);
             pst.setInt(4, Integer.parseInt(lotID));
+            pst.setString(5, sensorID);
             
             pst.execute();
             
@@ -242,12 +243,15 @@ public class Db_data {
                 tmpID = rs.getInt("id");
             }
             
-            query = "INSERT INTO parking_bay_ui (x,y,rotation,parking_bay_id) VALUES (?,?,?,?)";
+            query = "INSERT INTO parking_bay_ui (x,y,rotation,parking_bay_id) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE x = ?, y = ?, rotation = ?";
             pst = con.prepareStatement(query);
             pst.setInt(1, x);
             pst.setInt(2, y);
             pst.setDouble(3, rot);
             pst.setInt(4, tmpID);
+            pst.setInt(5, x);
+            pst.setInt(6, y);
+            pst.setDouble(7, rot);
             
             pst.execute();
             conn.close();            
@@ -255,5 +259,66 @@ public class Db_data {
             Logger lgr = Logger.getLogger(Db_data.class.getName());
             lgr.log(Level.SEVERE, ex.getMessage(), ex);
         }
+    }
+
+    public void logChange(String sensorID, String type, String event, String timeStamp) {
+        try {
+            conn.connect();
+            Connection con = conn.getConnection();
+
+            String query = "INSERT INTO bay_log (identifier,stype,event,time_of_change) VALUES (?,?,?,?)";
+            PreparedStatement pst = con.prepareStatement(query);
+            pst.setString(1, sensorID);
+            pst.setString(2, type);
+            pst.setString(3, event);
+            pst.setString(4, timeStamp);
+            
+            pst.execute();
+            conn.close();            
+        } catch (SQLException ex) {
+            Logger lgr = Logger.getLogger(Db_data.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+    }
+
+    public LinkedHashMap getFromLog(String type, String event) {
+        LinkedHashMap data = new LinkedHashMap();
+        try {
+            conn.connect();
+            Connection con = conn.getConnection();
+            PreparedStatement pst = con.prepareStatement("SELECT identifier, COUNT(id) AS num FROM bay_log WHERE stype = \""+type+"\" AND event = \""+event+"\" GROUP BY identifier");
+            ResultSet rs = pst.executeQuery();
+            ParkingBay tmp = new ParkingBay();
+            while (rs.next()) {
+                data.put(rs.getString("identifier"),rs.getInt("num"));
+            }
+            conn.close();
+            return data;
+        } catch (SQLException ex) {
+            Logger lgr = Logger.getLogger(Db_data.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+        return null;
+    }
+
+    public int getUserLevel(String username, String password) {
+        int userLevel = -1;
+        try {
+            conn.connect();
+            Connection con = conn.getConnection();
+            PreparedStatement pst = con.prepareStatement("SELECT level FROM personnel WHERE username = ? AND password = ?");
+            pst.setString(1, username);
+            pst.setString(2, password);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                userLevel = rs.getInt("level");
+            }
+            conn.close();
+            return userLevel;
+        } catch (SQLException ex) {
+            Logger lgr = Logger.getLogger(Db_data.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+        return userLevel;
     }
 }

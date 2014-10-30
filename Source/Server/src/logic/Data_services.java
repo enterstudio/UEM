@@ -8,6 +8,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -21,6 +22,10 @@ public class Data_services {
         data.addNewParkingBayToDB(sensorID,lotID,timeStamp);
     }
     
+    public HashMap<String, Integer> getBayUsage() {
+        return data.getFromLog("STATE","false");
+    }
+    
     public void sensorStateChange(String sensorID, boolean state)
     {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -28,6 +33,7 @@ public class Data_services {
         String timeStamp = dateFormat.format(date);
         
         data.updateParkingBayFromIdentifier(sensorID, state, timeStamp);
+        data.logChange(sensorID, "STATE", String.valueOf(state), timeStamp);
     }
     
     public List<ParkingBay> getAllParkingBaysForUI() {
@@ -75,5 +81,9 @@ public class Data_services {
 
     public void addNewParkingBay(String sensorID, String lotID, int x, int y, Double rot, String timeStamp) {
         data.addNewParkingBayToDB(sensorID,lotID,x,y,rot,timeStamp);
+    }
+
+    public int getUserLevel(String username, String password) {
+        return data.getUserLevel(username, password);
     }
 }

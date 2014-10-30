@@ -6,7 +6,6 @@ import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
-import javafx.scene.effect.Effect;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,7 +23,7 @@ public class Bay extends Parent {
     private Date datetime;
     private double rotation = 0;
     private boolean selected = false;
-
+    
     public Date getDatetime() {
         return datetime;
     }
